@@ -12,6 +12,7 @@
     "@types/react-dom": "^18.0.5",
     "@types/react-helmet-async": "^1.0.3",
     "apexcharts": "^3.35.3",
+    "gh-pages": "^4.0.0",
     "react": "^18.1.0",
     "react-apexcharts": "^1.4.0",
     "react-dom": "^18.1.0",
@@ -23,11 +24,14 @@
     "typescript": "^4.7.3",
     "web-vitals": "^2.1.4"
   },
+  "homepage": "https://Palwol.github.io/Crypto-tracker",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "gh-pages -d build",
+    "predeploy": "npm run build"
   },
   "eslintConfig": {
     "extends": [
