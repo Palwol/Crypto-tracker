@@ -6,13 +6,13 @@ import Chart from "./routes/Chart";
 
 function Router() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Routes>
-        <Route path={process.env.PUBLIC_URL + "/:coinId"} element={<Coin />}>
-          <Route path={process.env.PUBLIC_URL + "chart"} element={<Chart />} />
-          <Route path={process.env.PUBLIC_URL + "price"} element={<Price />} />
+        <Route path="/:coinId" element={<Coin />}>
+          <Route path="chart" element={<Chart />} />
+          <Route path="price" element={<Price />} />
         </Route>
-        <Route path={process.env.PUBLIC_URL + "/"} element={<Coins />}></Route>
+        <Route path="/" element={<Coins />}></Route>
       </Routes>
     </BrowserRouter>
   );
