@@ -8,7 +8,7 @@ import {
 import styled from "styled-components";
 import { useQuery } from "react-query";
 import { fetchCoinInfo, fetchCoinTickers } from "../api";
-import { Helmet } from "react-helmet";
+import { Helmet, HelmetProvider } from "react-helmet-async";
 
 const Container = styled.div`
   display: flex;
@@ -20,10 +20,32 @@ const Container = styled.div`
   margin: 0 auto;
 `;
 
+const Header = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+`;
+
+const BackBtn = styled.button`
+  color: ${(props) => props.theme.textColor};
+  border: none;
+  border-radius: 100px;
+  background-color: ${(props) => props.theme.boxColor};
+  width: 50px;
+  height: 18px;
+  font-size: 10px;
+  transition: color 0.1s ease-in;
+  &:hover {
+    cursor: pointer;
+    color: ${(props) => props.theme.accentColor};
+  }
+`;
+
 const Title = styled.h1`
   color: ${(props) => props.theme.accentColor};
   font-size: 48px;
-  padding: 30px;
+  padding: 20px;
+  align-self: center;
 `;
 
 const Loader = styled.div`
@@ -33,7 +55,7 @@ const Loader = styled.div`
 const Overview = styled.div`
   display: flex;
   justify-content: space-between;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: ${(props) => props.theme.boxColor};
   width: 100%;
   padding: 10px 20px;
   border-radius: 10px;
@@ -43,6 +65,7 @@ const OverviewItem = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  color: ${(props) => props.theme.textColor};
 
   span:first-child {
     font-size: 10px;
@@ -70,13 +93,17 @@ const Tab = styled.span<{ isActive: boolean }>`
   text-align: center;
   text-transform: uppercase;
   font-size: 12px;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: ${(props) => props.theme.boxColor};
   border-radius: 10px;
   color: ${(props) =>
     props.isActive ? props.theme.accentColor : props.theme.textColor};
   a {
+    transition: color 0.1s ease-in;
     display: block;
     padding: 7px;
+    &:hover {
+      color: ${(props) => props.theme.accentColor};
+    }
   }
 `;
 
@@ -160,14 +187,25 @@ function Coin() {
   const loading = infoLoading || tickersLoading;
   return (
     <Container>
-      <Helmet>
-        <title>
+      <Header>
+        <HelmetProvider>
+          <Helmet>
+            <title>
+              {state?.name
+                ? state.name
+                : loading
+                ? "Loading.."
+                : infoData?.name}
+            </title>
+          </Helmet>
+        </HelmetProvider>
+        <Link to="/">
+          <BackBtn>&lt; Back</BackBtn>
+        </Link>
+        <Title>
           {state?.name ? state.name : loading ? "Loading.." : infoData?.name}
-        </title>
-      </Helmet>
-      <Title>
-        {state?.name ? state.name : loading ? "Loading.." : infoData?.name}
-      </Title>
+        </Title>
+      </Header>
       {loading ? (
         <Loader>Loading...</Loader>
       ) : (
@@ -205,7 +243,7 @@ function Coin() {
               <Link to={`/${coinId}/price`}>Price</Link>
             </Tab>
           </Tabs>
-          <Outlet context={{ coinId }} />
+          <Outlet context={{ coinId, tickersData }} />
         </>
       )}
     </Container>

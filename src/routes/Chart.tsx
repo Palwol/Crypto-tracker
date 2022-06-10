@@ -33,62 +33,54 @@ function Chart() {
         "Loading chart..."
       ) : (
         <ApexChart
-          type="line"
-          series={[
-            {
-              name: "price",
-              data: data?.map((price) => price.close) ?? [],
-            },
-          ]}
+          type="candlestick"
+          series={
+            [
+              {
+                name: "price",
+                data: data?.map((price) => [
+                  price.time_close,
+                  price.open.toFixed(2),
+                  price.high.toFixed(2),
+                  price.low.toFixed(2),
+                  price.close.toFixed(2),
+                ]),
+              },
+            ] as any
+          }
           options={{
             theme: {
               mode: "dark",
             },
             chart: {
+              type: "candlestick",
               height: 300,
-              width: 500,
               toolbar: {
                 show: false,
               },
               background: "transparent",
             },
-            grid: {
-              show: false,
-            },
             xaxis: {
               type: "datetime",
-              categories: data?.map((price) => price.time_close),
               labels: {
-                show: false,
+                style: {
+                  fontSize: "10px",
+                },
               },
-              axisTicks: {
-                show: false,
-              },
-              axisBorder: {
-                show: false,
+              tooltip: {
+                enabled: false,
               },
             },
             yaxis: {
               labels: {
                 show: false,
               },
-            },
-            stroke: {
-              curve: "smooth",
-              width: 4,
-            },
-            fill: {
-              type: "gradient",
-              gradient: {
-                gradientToColors: ["#55efc4"],
-                stops: [0, 100],
+              tooltip: {
+                enabled: true,
               },
             },
-            colors: ["#0984e3"],
-            tooltip: {
-              y: {
-                formatter: (value) => `$${value.toFixed(2)}`,
-              },
+            grid: {
+              show: false,
             },
           }}
         />

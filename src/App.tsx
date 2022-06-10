@@ -1,6 +1,9 @@
 import { createGlobalStyle } from "styled-components";
 import Router from "./Router";
-import { ReactQueryDevtools } from "react-query/devtools";
+import { ThemeProvider } from "styled-components";
+import { darkTheme, lightTheme } from "./theme";
+import styled from "styled-components";
+import React, { useState } from "react";
 
 const GlobalStyle = createGlobalStyle`
   html, body, div, span, applet, object, iframe,
@@ -58,12 +61,45 @@ a {
 }
 `;
 
+const BtnContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  padding: 0px 30px;
+  margin: 10px auto;
+  max-width: 480px;
+`;
+const DarkBtn = styled.button`
+  font-size: 11px;
+  border: none;
+  border-radius: 10px;
+  background-color: ${(props) => props.theme.boxColor};
+  color: ${(props) => props.theme.textColor};
+  width: 45px;
+  height: 20px;
+  transition: color 0.1s ease-in;
+  &:hover {
+    cursor: pointer;
+    color: ${(props) => props.theme.accentColor};
+  }
+`;
+
 function App() {
+  const [isDark, setIsDark] = useState(true);
+  const onClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const value = event.currentTarget.value;
+    setIsDark(value === "Light" ? false : true);
+  };
   return (
     <>
-      <GlobalStyle />
-      <Router />
-      <ReactQueryDevtools initialIsOpen={true} />
+      <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
+        <GlobalStyle />
+        <BtnContainer>
+          <DarkBtn onClick={onClick} value={isDark ? "Light" : "Dark"}>
+            {isDark ? "Light" : "Dark"}
+          </DarkBtn>
+        </BtnContainer>
+        <Router />
+      </ThemeProvider>
     </>
   );
 }
