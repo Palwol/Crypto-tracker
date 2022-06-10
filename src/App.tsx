@@ -69,14 +69,13 @@ const BtnContainer = styled.div`
   max-width: 480px;
 `;
 const DarkBtn = styled.button`
-  font-size: 11px;
+  font-size: 12px;
   border: none;
-  border-radius: 10px;
+  border-radius: 100px;
   background-color: ${(props) => props.theme.boxColor};
   color: ${(props) => props.theme.textColor};
-  width: 45px;
-  height: 20px;
   transition: color 0.1s ease-in;
+  padding: 7px 15px;
   &:hover {
     cursor: pointer;
     color: ${(props) => props.theme.accentColor};

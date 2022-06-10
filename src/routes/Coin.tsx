@@ -31,9 +31,8 @@ const BackBtn = styled.button`
   border: none;
   border-radius: 100px;
   background-color: ${(props) => props.theme.boxColor};
-  width: 50px;
-  height: 18px;
-  font-size: 10px;
+  padding: 7px 12px;
+  font-size: 12px;
   transition: color 0.1s ease-in;
   &:hover {
     cursor: pointer;
@@ -221,18 +220,23 @@ function Coin() {
             </OverviewItem>
             <OverviewItem>
               <span>PRICE</span>
-              <span>${tickersData?.quotes.USD.price.toFixed(3)}</span>
+              <span>
+                $
+                {Number(
+                  tickersData?.quotes.USD.price.toFixed(3)
+                ).toLocaleString("en")}
+              </span>
             </OverviewItem>
           </Overview>
           <Description>{infoData?.description}</Description>
           <Overview>
             <OverviewItem>
               <span>TOTAL SUPLY</span>
-              <span>{tickersData?.total_supply}</span>
+              <span>{tickersData?.total_supply.toLocaleString("en")}</span>
             </OverviewItem>
             <OverviewItem>
               <span>MAX SUPLY</span>
-              <span>{tickersData?.max_supply}</span>
+              <span>{tickersData?.max_supply.toLocaleString("en")}</span>
             </OverviewItem>
           </Overview>
           <Tabs>

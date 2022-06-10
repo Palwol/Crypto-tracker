@@ -8,6 +8,7 @@ const Container = styled.div`
   border-radius: 10px;
   background-color: ${(props) => props.theme.boxColor};
   padding: 10px;
+  margin-bottom: 20px;
 `;
 
 const Item = styled.span`
