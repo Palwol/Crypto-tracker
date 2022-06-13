@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { useQuery } from "react-query";
 import { fetchCoins } from "../api";
 import { Helmet, HelmetProvider } from "react-helmet-async";
+import { useRecoilState } from "recoil";
+import { isDarkAtom } from "../atoms";
 
 const Container = styled.div`
   padding: 0px 30px;
@@ -13,9 +15,35 @@ const Container = styled.div`
 const Header = styled.header`
   height: 20vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-top: 10px;
   margin-bottom: 20px;
+`;
+
+const Title = styled.h1`
+  color: ${(props) => props.theme.accentColor};
+  font-size: 48px;
+`;
+
+const DarkBtn = styled.button`
+  color: ${(props) => props.theme.textColor};
+  border: none;
+  border-radius: 100px;
+  background-color: ${(props) => props.theme.boxColor};
+  padding: 5px 12px;
+  font-size: 12px;
+  align-self: flex-end;
+  transition: color 0.1s ease-in;
+  &:hover {
+    cursor: pointer;
+    color: ${(props) => props.theme.accentColor};
+  }
+`;
+
+const Loader = styled.div`
+  text-align: center;
 `;
 
 const CoinsList = styled.ul`
@@ -40,15 +68,6 @@ const Coin = styled.li`
   }
 `;
 
-const Title = styled.h1`
-  color: ${(props) => props.theme.accentColor};
-  font-size: 48px;
-`;
-
-const Loader = styled.div`
-  text-align: center;
-`;
-
 const Img = styled.img`
   width: 35px;
   height: 35px;
@@ -67,6 +86,10 @@ interface ICoin {
 
 function Coins() {
   const { isLoading, data } = useQuery<ICoin[]>("allCoins", fetchCoins);
+  const [isDark, setIsDark] = useRecoilState(isDarkAtom);
+  const toggleDark = () => {
+    setIsDark((curr) => !curr);
+  };
   return (
     <Container>
       <HelmetProvider>
@@ -75,6 +98,7 @@ function Coins() {
         </Helmet>
       </HelmetProvider>
       <Header>
+        <DarkBtn onClick={toggleDark}>{isDark ? "Light" : "Dark"}</DarkBtn>
         <Title>Coins</Title>
       </Header>
       {isLoading ? (
